@@ -21,17 +21,16 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
-      - name: Setup Android SDK
+      - name: Setup Android SDK Base
         uses: android-actions/setup-android@v3
-        with:
-          packages: |
-            platforms;android-37.0
-            build-tools;37.0.0
-            ndk;29.0.14206865
 
-      - name: Set ANDROID_NDK_HOME
+      - name: Install Android SDK 37, Build-Tools 37 & NDK r29
         run: |
-          NDK_DIR=$(find "$ANDROID_HOME/ndk" -maxdepth 1 -mindepth 1 -type d | head -n 1)
+          yes | sdkmanager --licenses > /dev/null || true
+          NDK_PKG=$(sdkmanager --list | grep -oE 'ndk;29\.[0-9]+\.[0-9]+' | sort -V | tail -n 1)
+          echo "Installing NDK package: $NDK_PKG"
+          sdkmanager "platforms;android-37" "build-tools;37.0.0" "$NDK_PKG"
+          NDK_DIR=$(find "$ANDROID_HOME/ndk" -maxdepth 1 -mindepth 1 -type d | sort -V | tail -n 1)
           echo "ANDROID_NDK_HOME=$NDK_DIR" >> $GITHUB_ENV
 
       - name: Setup Gradle

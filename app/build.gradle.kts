@@ -5,13 +5,13 @@ plugins {
 
 android {
     namespace = "dev.honor.bootforge"
-    compileSdk = 37
-    buildToolsVersion = "37.0.0"
+    compileSdk = 36
+    buildToolsVersion = "36.0.0"
 
     defaultConfig {
         applicationId = "net.hawyn.honor8e5ubl"
         minSdk = 28
-        targetSdk = 37
+        targetSdk = 36
         versionCode = 23
         versionName = "2.3.5"
         manifestPlaceholders["appLabel"] = "honor_ubl"
